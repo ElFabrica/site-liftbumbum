@@ -5,13 +5,14 @@ import { isAuthenticated } from "@/lib/auth";
 // PUT /api/admin/tracking/[id] — atualiza um código de rastreamento (requer auth)
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   if (!isAuthenticated()) {
     return NextResponse.json({ error: "Não autorizado." }, { status: 401 });
   }
 
-  const id = parseInt(params.id, 10);
+  const { id: idParam } = await params;
+  const id = parseInt(idParam, 10);
   if (isNaN(id))
     return NextResponse.json({ error: "ID inválido." }, { status: 400 });
 
@@ -31,13 +32,14 @@ export async function PUT(
 // DELETE /api/admin/tracking/[id] — remove um código de rastreamento (requer auth)
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   if (!isAuthenticated()) {
     return NextResponse.json({ error: "Não autorizado." }, { status: 401 });
   }
 
-  const id = parseInt(params.id, 10);
+  const { id: idParam } = await params;
+  const id = parseInt(idParam, 10);
   if (isNaN(id))
     return NextResponse.json({ error: "ID inválido." }, { status: 400 });
 

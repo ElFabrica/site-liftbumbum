@@ -1,0 +1,35 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// Armazena todos os dados do painel admin como JSON
+// (textos, planos, contato, aparência)
+model SiteData {
+  id        Int      @id @default(1)
+  data      Json     @default("{}")
+  updatedAt DateTime @updatedAt
+
+  @@map("site_data")
+}
+
+// Códigos de rastreamento (Pixel, GA4, GTM, Scripts)
+model TrackingCode {
+  id        Int      @id @default(autoincrement())
+  type      String   // 'fb' | 'google' | 'gtm' | 'custom'
+  name      String   @default("")
+  code      String   @default("")
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+
+  @@map("tracking_codes")
+}

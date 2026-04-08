@@ -1,65 +1,126 @@
-import Image from "next/image";
+import Navbar from "@/components/Navbar";
+import Hero from "@/components/Hero";
+import Marquee from "@/components/Marquee";
+import PreMentoria from "@/components/PreMentoria";
+import Plans from "@/components/Plans";
+import Sobre from "@/components/Sobre";
+import Gallery from "@/components/Gallery";
+import DorVirada from "@/components/DorVirada";
+import Estrutura from "@/components/Estrutura";
+import ParaQuem from "@/components/ParaQuem";
+import Depoimentos from "@/components/Depoimentos";
+import CTAFinal from "@/components/CTAFinal";
+import Footer from "@/components/Footer";
+import AnimationsProvider from "@/components/AnimationsProvider";
+import prisma from "@/lib/db";
 
-export default function Home() {
+export const revalidate = 60;
+
+// Busca dados do banco a cada requisição (ISR pode ser adicionado com revalidate)
+async function getSiteData() {
+  try {
+    const record = await prisma.siteData.findUnique({ where: { id: 1 } });
+    return (record?.data as Record<string, unknown>) ?? null;
+  } catch {
+    // Banco indisponível — usa dados padrão dos componentes
+    return null;
+  }
+}
+
+function normalizeString(v: unknown): string | undefined {
+  return typeof v === "string" && v.trim() ? v : undefined;
+}
+
+function buildWaLink(waNumber?: string, waMsg?: string) {
+  if (!waNumber) return undefined;
+  const base = `https://wa.me/${waNumber}`;
+  const msg = waMsg?.trim();
+  if (!msg) return base;
+  return `${base}?text=${encodeURIComponent(msg)}`;
+}
+
+export default async function Home() {
+  const siteData = await getSiteData();
+
+  const plans = siteData?.plans as
+    | {
+        name: string;
+        price: string;
+        priceNote?: string;
+        sub?: string;
+        features: { id: number; value: string }[];
+        bonus?: { id: number; value: string }[];
+        btn?: string;
+      }[]
+    | null;
+  const waNumber = normalizeString(siteData?.contactWa);
+  const waMsg = normalizeString(siteData?.contactWaMsg);
+  const waLink = buildWaLink(waNumber, waMsg);
+  const igLink = normalizeString(siteData?.contactIg);
+  const contactEmail = normalizeString(siteData?.contactEmail);
+
+  const heroTitle = normalizeString(siteData?.txtHeroTitle);
+  const heroSub = normalizeString(siteData?.txtHeroSub);
+  const ctaPrimary = normalizeString(siteData?.ctaPrimary);
+  const ctaSecondary = normalizeString(siteData?.ctaSecondary);
+  const aboutQuote = normalizeString(siteData?.txtQuote);
+  const aboutBio = normalizeString(siteData?.txtBio);
+
+  const visGallery = Boolean(siteData?.visGallery ?? true);
+  const visDeps = Boolean(siteData?.visDeps ?? true);
+  const visCursor = Boolean(siteData?.visCursor ?? true);
+  const visParticles = Boolean(siteData?.visParticles ?? true);
+
+  const stats = [
+    {
+      num: normalizeString(siteData?.stat1Num),
+      label: normalizeString(siteData?.stat1Label),
+    },
+    {
+      num: normalizeString(siteData?.stat2Num),
+      label: normalizeString(siteData?.stat2Label),
+    },
+    {
+      num: normalizeString(siteData?.stat3Num),
+      label: normalizeString(siteData?.stat3Label),
+    },
+  ].filter((s): s is { num: string; label: string } => Boolean(s.num && s.label));
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+    <>
+      {visParticles ? <canvas id="particles" /> : null}
+      {visCursor ? (
+        <>
+          <div className="cursor" id="cursor" />
+          <div className="cursor-ring" id="cursorRing" />
+          <div className="glow-overlay" id="glowOverlay" />
+        </>
+      ) : null}
+
+      <Navbar waHref={waLink} waText={ctaPrimary} />
+      <Hero
+        title={heroTitle}
+        sub={heroSub}
+        ctaPrimaryText={ctaPrimary}
+        ctaSecondaryText={ctaSecondary}
+        waHref={waLink}
+        stats={stats}
+      />
+      <Marquee />
+      <PreMentoria />
+      {/* Plans recebe dados dinâmicos do banco — fallback automático para defaults */}
+      <Plans dbPlans={plans} waLink={waLink} />
+      <Sobre quote={aboutQuote} bio={aboutBio} />
+      {visGallery ? <Gallery /> : null}
+      <DorVirada />
+      <Estrutura />
+      <ParaQuem />
+      {visDeps ? <Depoimentos /> : null}
+      <CTAFinal waHref={waLink} />
+      <Footer waHref={waLink} igHref={igLink} email={contactEmail} />
+
+      {/* Client-side: cursor, partículas, scroll reveal, contadores */}
+      <AnimationsProvider />
+    </>
   );
 }

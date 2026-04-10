@@ -206,7 +206,6 @@ nav {
       to right,
       var(--black) 0%,
       rgba(7, 7, 7, 0.6) 18%,
-      rgba(7, 7, 7, 0.15) 38%,
       transparent 58%
     ),
     linear-gradient(
@@ -415,6 +414,7 @@ nav {
   overflow: hidden;
   padding: 16px 0;
   background: rgba(200, 169, 110, 0.03);
+  width: 100%;
 }
 .marquee-track {
   display: flex;

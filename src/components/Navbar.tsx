@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import Link from "next/link";
 
 export interface NavbarProps {
   waHref?: string;
@@ -6,11 +6,9 @@ export interface NavbarProps {
 }
 
 const LogoDra = () => (
-  <svg viewBox="0 0 220 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <text x="0" y="20" fontFamily="var(--font-cormorant), serif" fontSize="18" fontWeight="300" fill="white" letterSpacing="1">Dra. Thaine</text>
-    <text x="0" y="38" fontFamily="var(--font-cormorant), serif" fontSize="18" fontStyle="italic" fontWeight="400" fill="#C8A96E" letterSpacing="1">Malinowski</text>
-    <line x1="0" y1="44" x2="148" y2="44" stroke="#C8A96E" strokeWidth="0.5" opacity="0.5"/>
-  </svg>
+  <div className="nav-logo-inner">
+    <img src="/logo-navbar.png" alt="Logo LiftBumbum" className="logo-img" />
+  </div>
 );
 
 const DEFAULTS: Required<Pick<NavbarProps, "waHref" | "waText">> = {
@@ -28,13 +26,28 @@ export default function Navbar(props: NavbarProps) {
         <LogoDra />
       </div>
       <ul className="nav-links">
-        <li><Link href="#mentoria">Mentoria</Link></li>
-        <li><Link href="#planos">Planos</Link></li>
-        <li><Link href="#sobre">Sobre</Link></li>
-        <li><Link href="#depoimentos">Depoimentos</Link></li>
-        <li><Link href="#contato">Contato</Link></li>
+        <li>
+          <Link href="#mentoria">Mentoria</Link>
+        </li>
+        <li>
+          <Link href="#planos">Planos</Link>
+        </li>
+        <li>
+          <Link href="#sobre">Sobre</Link>
+        </li>
+        <li>
+          <Link href="#depoimentos">Depoimentos</Link>
+        </li>
+        <li>
+          <Link href="#contato">Contato</Link>
+        </li>
       </ul>
-      <a href={waHref} className="nav-cta" target="_blank" rel="noopener noreferrer">
+      <a
+        href={waHref}
+        className="nav-cta"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         {waText}
       </a>
     </nav>

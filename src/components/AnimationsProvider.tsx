@@ -6,9 +6,11 @@ export default function AnimationsProvider() {
   useEffect(() => {
     const cleanups: (() => void)[] = [];
 
+    const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
     // ── PARTICLES ──────────────────────────────────────────
     const canvas = document.getElementById('particles') as HTMLCanvasElement | null;
-    if (canvas) {
+    if (canvas && !isTouch) {
       const ctx = canvas.getContext('2d')!;
       let W = 0, H = 0;
       const pts: any[] = [];
@@ -49,63 +51,70 @@ export default function AnimationsProvider() {
       };
       loop();
       cleanups.push(() => cancelAnimationFrame(rafId));
+    } else if (canvas && isTouch) {
+      canvas.style.display = 'none';
+    }
 
-      }
-
-      // ── CURSOR ─────────────────────────────────────────────
+    // ── CURSOR ─────────────────────────────────────────────
     const cur = document.getElementById('cursor');
     const ring = document.getElementById('cursorRing');
     const glow = document.getElementById('glowOverlay');
-    if (cur || ring || glow) {
-        let mx = 0, my = 0, rx = 0, ry = 0;
+    
+    if (!isTouch && (cur || ring || glow)) {
+      let mx = 0, my = 0, rx = 0, ry = 0;
 
-        const onMove = (e: MouseEvent) => {
-          mx = e.clientX; my = e.clientY;
-          if (cur) { cur.style.left = mx + 'px'; cur.style.top = my + 'px'; }
-          if (glow) glow.style.background = `radial-gradient(550px at ${mx}px ${my}px,rgba(200,169,110,.045) 0%,transparent 70%)`;
-        };
-        document.addEventListener('mousemove', onMove);
-        cleanups.push(() => document.removeEventListener('mousemove', onMove));
+      const onMove = (e: MouseEvent) => {
+        mx = e.clientX; my = e.clientY;
+        if (cur) { cur.style.left = mx + 'px'; cur.style.top = my + 'px'; }
+        if (glow) glow.style.background = `radial-gradient(550px at ${mx}px ${my}px,rgba(200,169,110,.045) 0%,transparent 70%)`;
+      };
+      document.addEventListener('mousemove', onMove);
+      cleanups.push(() => document.removeEventListener('mousemove', onMove));
 
-        let ringRaf = 0;
-        const animRing = () => {
-          rx += (mx - rx) * .11; ry += (my - ry) * .11;
-          if (ring) { ring.style.left = rx + 'px'; ring.style.top = ry + 'px'; }
-          ringRaf = requestAnimationFrame(animRing);
-        };
-        animRing();
-        cleanups.push(() => cancelAnimationFrame(ringRaf));
+      let ringRaf = 0;
+      const animRing = () => {
+        rx += (mx - rx) * .11; ry += (my - ry) * .11;
+        if (ring) { ring.style.left = rx + 'px'; ring.style.top = ry + 'px'; }
+        ringRaf = requestAnimationFrame(animRing);
+      };
+      animRing();
+      cleanups.push(() => cancelAnimationFrame(ringRaf));
 
-        const hoverTargets = Array.from(
-          document.querySelectorAll('a,button,.plan-card,.gallery-item,.pq-item'),
-        );
-        const onEnter = () => {
-          if (cur) { cur.style.width = '18px'; cur.style.height = '18px'; }
-          if (ring) { ring.style.width = '52px'; ring.style.height = '52px'; }
-        };
-        const onLeave = () => {
-          if (cur) { cur.style.width = '12px'; cur.style.height = '12px'; }
-          if (ring) { ring.style.width = '36px'; ring.style.height = '36px'; }
-        };
+      const hoverTargets = Array.from(
+        document.querySelectorAll('a,button,.plan-card,.gallery-item,.pq-item'),
+      );
+      const onEnter = () => {
+        if (cur) { cur.style.width = '18px'; cur.style.height = '18px'; }
+        if (ring) { ring.style.width = '52px'; ring.style.height = '52px'; }
+      };
+      const onLeave = () => {
+        if (cur) { cur.style.width = '12px'; cur.style.height = '12px'; }
+        if (ring) { ring.style.width = '36px'; ring.style.height = '36px'; }
+      };
+      hoverTargets.forEach(el => {
+        el.addEventListener('mouseenter', onEnter);
+        el.addEventListener('mouseleave', onLeave);
+      });
+      cleanups.push(() => {
         hoverTargets.forEach(el => {
-          el.addEventListener('mouseenter', onEnter);
-          el.addEventListener('mouseleave', onLeave);
+          el.removeEventListener('mouseenter', onEnter);
+          el.removeEventListener('mouseleave', onLeave);
         });
-        cleanups.push(() => {
-          hoverTargets.forEach(el => {
-            el.removeEventListener('mouseenter', onEnter);
-            el.removeEventListener('mouseleave', onLeave);
-          });
-        });
-      }
+      });
+    } else {
+      if (cur) cur.style.display = 'none';
+      if (ring) ring.style.display = 'none';
+      if (glow) glow.style.display = 'none';
+      document.body.style.cursor = 'auto';
+    }
 
-      // ── SCROLL REVEAL ──────────────────────────────────────
-      const reveals = document.querySelectorAll('.reveal');
-      const observer = new IntersectionObserver(entries => {
-        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
-      }, { threshold: .1, rootMargin: '0px 0px -36px 0px' });
-      reveals.forEach(r => observer.observe(r));
-      cleanups.push(() => observer.disconnect());
+    // ── SCROLL REVEAL ──────────────────────────────────────
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+    }, { threshold: .05, rootMargin: '0px 0px -20px 0px' }); // Adjusted for mobile
+    reveals.forEach(r => observer.observe(r));
+    cleanups.push(() => observer.disconnect());
 
       // ── COUNTER ────────────────────────────────────────────
       const counters = document.querySelectorAll<HTMLElement>('.stat-number');

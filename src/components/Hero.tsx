@@ -189,10 +189,10 @@ export default function Hero(props: HeroProps) {
           style={{ objectFit: "cover", objectPosition: "center top" }}
           priority
         />
-        <div className="hero-float-card">
+        {/* <div className="hero-float-card">
           <div className="float-card-label">Técnica Exclusiva</div>
           <div className="float-card-value">LiftBumbum®</div>
-        </div>
+        </div> */}
       </div>
     </section>
   );

@@ -13,7 +13,7 @@ const LogoDra = () => (
 
 const DEFAULTS: Required<Pick<NavbarProps, "waHref" | "waText">> = {
   waHref: "https://wa.me/559286062977",
-  waText: "Quero Participar",
+  waText: "Falar com Consultor",
 };
 
 export default function Navbar(props: NavbarProps) {
@@ -27,19 +27,16 @@ export default function Navbar(props: NavbarProps) {
       </div>
       <ul className="nav-links">
         <li>
-          <Link href="#mentoria">Mentoria</Link>
+          <Link href="#sobre-metodo">O Método</Link>
+        </li>
+        <li>
+          <Link href="#resultados">Resultados</Link>
         </li>
         <li>
           <Link href="#planos">Planos</Link>
         </li>
         <li>
           <Link href="#sobre">Sobre</Link>
-        </li>
-        <li>
-          <Link href="#depoimentos">Depoimentos</Link>
-        </li>
-        <li>
-          <Link href="#contato">Contato</Link>
         </li>
       </ul>
       <a

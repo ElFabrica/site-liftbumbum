@@ -26,9 +26,25 @@ interface Plan {
   btn: string;
 }
 
+interface BonusItemAdmin {
+  id: number;
+  title: string;
+  desc: string;
+  originalPrice: string;
+  note: string;
+}
+interface FAQItemAdmin {
+  id: number;
+  q: string;
+  a: string;
+}
+
 interface AdminData {
   txtHeroTitle: string;
   txtHeroSub: string;
+  heroSelo: string;
+  heroChecklist: string[];
+  heroBadges: string[];
   ctaPrimary: string;
   ctaSecondary: string;
   stat1Num: string;
@@ -39,6 +55,22 @@ interface AdminData {
   stat3Label: string;
   txtQuote: string;
   txtBio: string;
+  dorTitle: string;
+  dorSubtitle: string;
+  dorItems: string[];
+  viradaItems: string[];
+  ecoTitle: string;
+  ecoSub: string;
+  ecoTestimony: string;
+  ecoTestimonyAuthor: string;
+  estruturaTitle: string;
+  estruturaSub: string;
+  bonusTitle: string;
+  bonusSub: string;
+  bonusItems: BonusItemAdmin[];
+  faqTitle: string;
+  faqSub: string;
+  faqItems: FAQItemAdmin[];
   plans: Plan[];
   contactWa: string;
   contactWaMsg: string;
@@ -55,21 +87,75 @@ interface AdminData {
 }
 
 const DEFAULT_DATA: AdminData = {
-  txtHeroTitle: "Escolha sua experiência. Transforme seu corpo e sua carreira.",
+  txtHeroTitle: "Domine o Método LiftBumbum®: A Técnica de Harmonização de Glúteos que une Ciência, Segurança e Alta Lucratividade",
   txtHeroSub:
-    "A mentoria que une ciência, estética avançada e resultados reais.",
-  ctaPrimary: "Quero Participar",
+    "Imersão VIP Presencial com modelos reais — aprenda tudo que faço para faturar +1MM/ano em apenas 3 dias.",
+  heroSelo: "MÉTODO REGISTRADO ® | VAGAS LIMITADAS PARA PROFISSIONAIS DE ELITE",
+  heroChecklist: [
+    "Domínio Técnico Avançado: Protocolos exclusivos com Bioestimuladores e Ácido Hialurônico para resultados imediatos e duradouros.",
+    "Hands-On com Modelos Reais: Prática supervisionada individualmente sob o olhar da Dra. Thaine, com segurança total.",
+    "Aceleração de Negócio & Marketing: O 'Dia 3' focado em Business — Instagram, scripts de vendas e captação de pacientes de alto padrão.",
+    "Networking e Comunidade VIP: Faça parte de um ecossistema de profissionais referências no Brasil.",
+    "Mentoria e Suporte por 6 Meses: Canal direto para análise de casos clínicos e suporte técnico por 180 dias.",
+    "Bônus Exclusivo: Kit de Marketing (fotos e vídeos profissionais) + Certificado de Especialista Licenciada.",
+  ],
+  heroBadges: [
+    "+500 Alunas Formadas",
+    "Método com Marca Registrada",
+    "Fature +5 dígitos em 30 dias",
+  ],
+  ctaPrimary: "Quero Garantir Minha Vaga",
   ctaSecondary: "Ver Planos",
   stat1Num: "500+",
   stat1Label: "Alunas Formadas",
-  stat2Num: "98%",
-  stat2Label: "Satisfação",
+  stat2Num: "R$3k–12k",
+  stat2Label: "Por Protocolo",
   stat3Num: "3 Dias",
   stat3Label: "Imersão Completa",
   txtQuote:
-    '"Minha missão é empoderar profissionais da estética com conhecimento sólido e técnicas que realmente transformam vidas."',
+    "Meu objetivo não é apenas te ensinar a aplicar um produto, é te ensinar a construir um império na estética através da segurança e do resultado impecável.",
   txtBio:
-    "Especialista em harmonização corporal e criadora do revolucionário Método LiftBumbum®.",
+    "Especialista em harmonização corporal e criadora do revolucionário Método LiftBumbum®, a Dra. Thaine Malinowski é referência nacional em estética avançada. Com anos de prática clínica intensa e milhares de procedimentos realizados, ela desenvolveu uma metodologia que une o rigor científico à estética de alto padrão.",
+  dorTitle: "Até quando você será \"apenas mais uma\" na estética enquanto seus concorrentes crescem e dominam sua região?",
+  dorSubtitle: "Cursos rasos, técnicas que não entregam o que prometem e a eterna guerra de preços por pacientes que não valorizam seu trabalho. Se você está cansada de agendas vazias e insegurança na aplicação, o problema não é você — é a sua metodologia.",
+  dorItems: [
+    "Medo de intercorrências por falta de base anatômica.",
+    "Dificuldade em cobrar caro e ser valorizada pelos pacientes.",
+    "Resultados que desaparecem em poucos meses.",
+    "Depende exclusivamente de indicação para conseguir novos clientes.",
+    "Cursos rasos, técnicas que não entregam o que prometem e a eterna guerra de preços.",
+  ],
+  viradaItems: [
+    "Dominando o Método LiftBumbum® com segurança técnica total.",
+    "Cobrando de R$ 3.000 a R$ 12.000 por protocolo com confiança.",
+    "Resultados imediatos e duradouros que fidelizam pacientes.",
+    "Atraindo pacientes de alto padrão pelo posicionamento, não pelo preço.",
+    "Suporte contínuo e uma rede exclusiva de profissionais referências.",
+  ],
+  ecoTitle: "Você nunca estará sozinha na sua jornada.",
+  ecoSub: "A Mentoria LiftBumbum® não termina quando o terceiro dia acaba. Você entra para um ecossistema desenhado para garantir sua evolução contínua e resultado.",
+  ecoTestimony: "O diferencial da Thaine é que ela não some. Quando tive minha primeira dúvida no consultório, a equipe me respondeu em minutos. Isso não tem preço.",
+  ecoTestimonyAuthor: "Dra. Juliana — Aluna Master",
+  estruturaTitle: "3 dias que vão mudar o patamar do seu faturamento, conhecimento e posicionamento.",
+  estruturaSub: "Uma jornada intensiva que vai do diagnóstico de luxo ao fechamento de contratos de alto ticket.",
+  bonusTitle: "O seu sucesso não pode esperar.",
+  bonusSub: "Além de toda a imersão presencial, você receberá um pacote de ferramentas prontas para acelerar o retorno do seu investimento.",
+  bonusItems: [
+    { id: 1, title: 'Kit de Marketing "Ready-to-Post"', desc: "05 fotos em alta resolução e 02 vídeos (Reels) de você em ação durante a mentoria.", originalPrice: "R$ 1.200,00", note: "Incluído nos planos Master/VIP" },
+    { id: 2, title: 'Script de Vendas "Fechamento de Luxo"', desc: "O passo a passo exato de como abordar e converter o lead que chega perguntando o preço.", originalPrice: "R$ 497,00", note: "Incluído em todos os planos" },
+    { id: 3, title: "Pack de Artes e Identidade Visual", desc: "Modelos de posts e stories editáveis no Canva com a estética do LiftBumbum®.", originalPrice: "R$ 350,00", note: "Incluído em todos os planos" },
+    { id: 4, title: "Guia de Fornecedores e Descontos Exclusivos", desc: "Lista VIP de fornecedores parceiros com condições e descontos exclusivos na compra de injetáveis.", originalPrice: "Inestimável", note: "Incluído em todos os planos" },
+  ],
+  faqTitle: "Ainda tem alguma dúvida?",
+  faqSub: "Respondemos às perguntas mais comuns para que você tome sua decisão com total segurança.",
+  faqItems: [
+    { id: 1, q: "Para quem é esta mentoria?", a: "A Mentoria LiftBumbum® é exclusiva para profissionais da área da saúde e estética (médicos, biomédicos, enfermeiros estetas, fisioterapeutas, farmacêuticos estetas e esteticistas graduados) que desejam dominar técnicas avançadas de harmonização de glúteos." },
+    { id: 2, q: "Preciso ter experiência prévia com injetáveis?", a: "Não é obrigatório ter experiência avançada, pois cobrimos desde a base anatômica até a prática hands-on. No entanto, é necessário ter a formação que permita legalmente a atuação na área." },
+    { id: 3, q: "Onde e quando acontece a próxima turma?", a: "Nossas imersões presenciais acontecem em Manaus/AM, em uma estrutura clínica de alto padrão. Para consultar as datas da próxima turma disponível, clique no botão de WhatsApp e fale com nossa consultora de vagas." },
+    { id: 4, q: "Como funciona o suporte pós-mentoria?", a: "Diferente de cursos comuns, você terá 180 dias (6 meses) de suporte técnico para enviar casos clínicos, fotos e dúvidas diretamente para nossa equipe." },
+    { id: 5, q: "O material de aplicação está incluso na prática?", a: "Sim! Todo o material (bioestimuladores, preenchedores, cânulas e descartáveis) para a prática nas modelos está incluso. Você só precisa trazer seu jaleco e sua vontade de aprender." },
+    { id: 6, q: "Posso parcelar o valor da inscrição?", a: "Sim. Facilitamos o seu investimento com entrada no Pix e o restante em até 12x no cartão de crédito, sendo possível utilizar até dois cartões diferentes." },
+  ],
   plans: [
     {
       name: "Experience Silver",
@@ -354,11 +440,50 @@ export default function AdminPage() {
   /* ---------------------------------------------------------------- */
   const TABS = [
     { id: "textos", icon: "✏️", label: "Textos" },
+    { id: "secoes", icon: "📄", label: "Seções" },
     { id: "planos", icon: "💎", label: "Planos" },
     { id: "rastreamento", icon: "📡", label: "Rastreamento" },
     { id: "contato", icon: "📞", label: "Contato" },
     { id: "aparencia", icon: "🎨", label: "Aparência" },
   ];
+
+  /* ---- Helpers for array fields ---- */
+  const updateStringArray = (key: keyof AdminData, idx: number, val: string) =>
+    setData((d) => {
+      const arr = [...(d[key] as string[])];
+      arr[idx] = val;
+      return { ...d, [key]: arr };
+    });
+
+  const addStringItem = (key: keyof AdminData) =>
+    setData((d) => ({ ...d, [key]: [...(d[key] as string[]), ""] }));
+
+  const removeStringItem = (key: keyof AdminData, idx: number) =>
+    setData((d) => {
+      const arr = (d[key] as string[]).filter((_, i) => i !== idx);
+      return { ...d, [key]: arr };
+    });
+
+  const addFaqItem = () =>
+    setData((d) => ({
+      ...d,
+      faqItems: [...d.faqItems, { id: Date.now(), q: "", a: "" }],
+    }));
+
+  const removeFaqItem = (id: number) =>
+    setData((d) => ({ ...d, faqItems: d.faqItems.filter((f) => f.id !== id) }));
+
+  const updateFaqItem = (id: number, field: "q" | "a", val: string) =>
+    setData((d) => ({
+      ...d,
+      faqItems: d.faqItems.map((f) => (f.id === id ? { ...f, [field]: val } : f)),
+    }));
+
+  const updateBonusItem = (id: number, field: keyof BonusItemAdmin, val: string) =>
+    setData((d) => ({
+      ...d,
+      bonusItems: d.bonusItems.map((b) => (b.id === id ? { ...b, [field]: val } : b)),
+    }));
 
   const TRACKING_CFG: Record<
     string,
@@ -687,6 +812,164 @@ export default function AdminPage() {
                     onChange={(e) => setField("txtBio", e.target.value)}
                   />
                 </Field>
+              </div>
+            </div>
+          )}
+
+          {/* ── SEÇÕES ── */}
+          {activeTab === "secoes" && (
+            <div>
+              {/* Hero — Selo e Checklist */}
+              <div style={styles.card}>
+                <div style={styles.cardTitle}>Hero — Selo de Exclusividade</div>
+                <Field label="Texto do Selo">
+                  <input
+                    style={styles.input}
+                    value={(data as AdminData).heroSelo}
+                    onChange={(e) => setField("heroSelo", e.target.value)}
+                  />
+                </Field>
+              </div>
+              <div style={styles.card}>
+                <div style={styles.cardTitle}>Hero — Checklist (✅ itens)</div>
+                {(data as AdminData).heroChecklist.map((item, idx) => (
+                  <div key={idx} style={styles.featureRow}>
+                    <input
+                      style={{ ...styles.input, flex: 1 }}
+                      value={item}
+                      onChange={(e) => updateStringArray("heroChecklist", idx, e.target.value)}
+                    />
+                    <button style={styles.btnDanger} onClick={() => removeStringItem("heroChecklist", idx)}>✕</button>
+                  </div>
+                ))}
+                <button style={styles.btnAdd} onClick={() => addStringItem("heroChecklist")}>+ Adicionar item</button>
+              </div>
+              <div style={styles.card}>
+                <div style={styles.cardTitle}>Hero — Prova Social (badges)</div>
+                {(data as AdminData).heroBadges.map((item, idx) => (
+                  <div key={idx} style={styles.featureRow}>
+                    <input
+                      style={{ ...styles.input, flex: 1 }}
+                      value={item}
+                      onChange={(e) => updateStringArray("heroBadges", idx, e.target.value)}
+                    />
+                    <button style={styles.btnDanger} onClick={() => removeStringItem("heroBadges", idx)}>✕</button>
+                  </div>
+                ))}
+                <button style={styles.btnAdd} onClick={() => addStringItem("heroBadges")}>+ Adicionar badge</button>
+              </div>
+
+              {/* Problema & Agitação */}
+              <div style={styles.card}>
+                <div style={styles.cardTitle}>Problema & Agitação (3ª Dobra)</div>
+                <Field label="Título">
+                  <textarea style={styles.textarea} rows={2} value={(data as AdminData).dorTitle} onChange={(e) => setField("dorTitle", e.target.value)} />
+                </Field>
+                <Field label="Subtítulo">
+                  <textarea style={styles.textarea} rows={3} value={(data as AdminData).dorSubtitle} onChange={(e) => setField("dorSubtitle", e.target.value)} />
+                </Field>
+                <Field label="Itens — Dor (✗)">
+                  {(data as AdminData).dorItems.map((item, idx) => (
+                    <div key={idx} style={styles.featureRow}>
+                      <input style={{ ...styles.input, flex: 1 }} value={item} onChange={(e) => updateStringArray("dorItems", idx, e.target.value)} />
+                      <button style={styles.btnDanger} onClick={() => removeStringItem("dorItems", idx)}>✕</button>
+                    </div>
+                  ))}
+                  <button style={styles.btnAdd} onClick={() => addStringItem("dorItems")}>+ Adicionar dor</button>
+                </Field>
+                <Field label="Itens — Virada (✓)">
+                  {(data as AdminData).viradaItems.map((item, idx) => (
+                    <div key={idx} style={styles.featureRow}>
+                      <input style={{ ...styles.input, flex: 1 }} value={item} onChange={(e) => updateStringArray("viradaItems", idx, e.target.value)} />
+                      <button style={styles.btnDanger} onClick={() => removeStringItem("viradaItems", idx)}>✕</button>
+                    </div>
+                  ))}
+                  <button style={styles.btnAdd} onClick={() => addStringItem("viradaItems")}>+ Adicionar virada</button>
+                </Field>
+              </div>
+
+              {/* Estrutura */}
+              <div style={styles.card}>
+                <div style={styles.cardTitle}>Cronograma — A Experiência (5ª Dobra)</div>
+                <Field label="Título">
+                  <textarea style={styles.textarea} rows={2} value={(data as AdminData).estruturaTitle} onChange={(e) => setField("estruturaTitle", e.target.value)} />
+                </Field>
+                <Field label="Subtítulo">
+                  <input style={styles.input} value={(data as AdminData).estruturaSub} onChange={(e) => setField("estruturaSub", e.target.value)} />
+                </Field>
+              </div>
+
+              {/* Ecossistema */}
+              <div style={styles.card}>
+                <div style={styles.cardTitle}>Ecossistema & Suporte (6ª Dobra)</div>
+                <Field label="Título">
+                  <input style={styles.input} value={(data as AdminData).ecoTitle} onChange={(e) => setField("ecoTitle", e.target.value)} />
+                </Field>
+                <Field label="Subtítulo">
+                  <textarea style={styles.textarea} rows={2} value={(data as AdminData).ecoSub} onChange={(e) => setField("ecoSub", e.target.value)} />
+                </Field>
+                <Field label="Depoimento de Suporte (texto)">
+                  <textarea style={styles.textarea} rows={2} value={(data as AdminData).ecoTestimony} onChange={(e) => setField("ecoTestimony", e.target.value)} />
+                </Field>
+                <Field label="Autora do Depoimento">
+                  <input style={styles.input} value={(data as AdminData).ecoTestimonyAuthor} onChange={(e) => setField("ecoTestimonyAuthor", e.target.value)} />
+                </Field>
+              </div>
+
+              {/* Bônus */}
+              <div style={styles.card}>
+                <div style={styles.cardTitle}>Bônus Exclusivos (8ª Dobra)</div>
+                <Field label="Título">
+                  <input style={styles.input} value={(data as AdminData).bonusTitle} onChange={(e) => setField("bonusTitle", e.target.value)} />
+                </Field>
+                <Field label="Subtítulo">
+                  <textarea style={styles.textarea} rows={2} value={(data as AdminData).bonusSub} onChange={(e) => setField("bonusSub", e.target.value)} />
+                </Field>
+                {(data as AdminData).bonusItems.map((item) => (
+                  <div key={item.id} style={{ ...styles.card, border: "1px solid rgba(200,169,110,0.1)", marginTop: 12 }}>
+                    <div style={{ fontSize: 12, color: "#C8A96E", fontWeight: 700, marginBottom: 10 }}>Bônus {item.id.toString().padStart(2, "0")}</div>
+                    <Field label="Título do Bônus">
+                      <input style={styles.input} value={item.title} onChange={(e) => updateBonusItem(item.id, "title", e.target.value)} />
+                    </Field>
+                    <Field label="Descrição">
+                      <textarea style={styles.textarea} rows={2} value={item.desc} onChange={(e) => updateBonusItem(item.id, "desc", e.target.value)} />
+                    </Field>
+                    <div style={styles.twoCol}>
+                      <Field label="Preço Original (riscado)">
+                        <input style={styles.input} value={item.originalPrice} onChange={(e) => updateBonusItem(item.id, "originalPrice", e.target.value)} />
+                      </Field>
+                      <Field label="Nota (ex: Incluso nos planos...)">
+                        <input style={styles.input} value={item.note} onChange={(e) => updateBonusItem(item.id, "note", e.target.value)} />
+                      </Field>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* FAQ */}
+              <div style={styles.card}>
+                <div style={styles.cardTitle}>FAQ — Perguntas Frequentes (9ª Dobra)</div>
+                <Field label="Título da Seção">
+                  <input style={styles.input} value={(data as AdminData).faqTitle} onChange={(e) => setField("faqTitle", e.target.value)} />
+                </Field>
+                <Field label="Subtítulo">
+                  <input style={styles.input} value={(data as AdminData).faqSub} onChange={(e) => setField("faqSub", e.target.value)} />
+                </Field>
+                {(data as AdminData).faqItems.map((item) => (
+                  <div key={item.id} style={{ ...styles.card, border: "1px solid rgba(200,169,110,0.1)", marginTop: 12 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 10 }}>
+                      <span style={{ fontSize: 12, color: "#C8A96E", fontWeight: 700 }}>Pergunta {(data as AdminData).faqItems.indexOf(item) + 1}</span>
+                      <button style={styles.btnDanger} onClick={() => removeFaqItem(item.id)}>✕ Remover</button>
+                    </div>
+                    <Field label="Pergunta">
+                      <input style={styles.input} value={item.q} onChange={(e) => updateFaqItem(item.id, "q", e.target.value)} />
+                    </Field>
+                    <Field label="Resposta">
+                      <textarea style={styles.textarea} rows={3} value={item.a} onChange={(e) => updateFaqItem(item.id, "a", e.target.value)} />
+                    </Field>
+                  </div>
+                ))}
+                <button style={{ ...styles.btnAdd, marginTop: 12 }} onClick={addFaqItem}>+ Adicionar pergunta</button>
               </div>
             </div>
           )}

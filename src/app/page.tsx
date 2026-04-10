@@ -1,34 +1,40 @@
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import Marquee from "@/components/Marquee";
+import DorVirada from "@/components/DorVirada";
 import PreMentoria from "@/components/PreMentoria";
-import Plans from "@/components/Plans";
+import Estrutura from "@/components/Estrutura";
+import Ecossistema from "@/components/Ecossistema";
 import Sobre from "@/components/Sobre";
 import Gallery from "@/components/Gallery";
-import DorVirada from "@/components/DorVirada";
-import Estrutura from "@/components/Estrutura";
-import ParaQuem from "@/components/ParaQuem";
 import Depoimentos from "@/components/Depoimentos";
-import CTAFinal from "@/components/CTAFinal";
+import Plans from "@/components/Plans";
+import Bonus from "@/components/Bonus";
+import FAQ from "@/components/FAQ";
 import Footer from "@/components/Footer";
 import AnimationsProvider from "@/components/AnimationsProvider";
+import ParaQuem from "@/components/ParaQuem";
 import prisma from "@/lib/db";
 
 export const revalidate = 60;
 
-// Busca dados do banco a cada requisição (ISR pode ser adicionado com revalidate)
 async function getSiteData() {
   try {
     const record = await prisma.siteData.findUnique({ where: { id: 1 } });
     return (record?.data as Record<string, unknown>) ?? null;
   } catch {
-    // Banco indisponível — usa dados padrão dos componentes
     return null;
   }
 }
 
 function normalizeString(v: unknown): string | undefined {
   return typeof v === "string" && v.trim() ? v : undefined;
+}
+
+function normalizeStringArray(v: unknown): string[] | undefined {
+  if (!Array.isArray(v)) return undefined;
+  const arr = v.filter((i) => typeof i === "string" && i.trim());
+  return arr.length > 0 ? arr : undefined;
 }
 
 function buildWaLink(waNumber?: string, waMsg?: string) {
@@ -53,38 +59,67 @@ export default async function Home() {
         btn?: string;
       }[]
     | null;
+
   const waNumber = normalizeString(siteData?.contactWa);
   const waMsg = normalizeString(siteData?.contactWaMsg);
   const waLink = buildWaLink(waNumber, waMsg);
   const igLink = normalizeString(siteData?.contactIg);
   const contactEmail = normalizeString(siteData?.contactEmail);
 
+  // Hero
   const heroTitle = normalizeString(siteData?.txtHeroTitle);
   const heroSub = normalizeString(siteData?.txtHeroSub);
+  const heroSelo = normalizeString(siteData?.heroSelo);
+  const heroChecklist = normalizeStringArray(siteData?.heroChecklist);
+  const heroBadges = normalizeStringArray(siteData?.heroBadges);
   const ctaPrimary = normalizeString(siteData?.ctaPrimary);
   const ctaSecondary = normalizeString(siteData?.ctaSecondary);
+
+  const stats = [
+    { num: normalizeString(siteData?.stat1Num), label: normalizeString(siteData?.stat1Label) },
+    { num: normalizeString(siteData?.stat2Num), label: normalizeString(siteData?.stat2Label) },
+    { num: normalizeString(siteData?.stat3Num), label: normalizeString(siteData?.stat3Label) },
+  ].filter((s): s is { num: string; label: string } => Boolean(s.num && s.label));
+
+  // Sobre
   const aboutQuote = normalizeString(siteData?.txtQuote);
   const aboutBio = normalizeString(siteData?.txtBio);
 
+  // DorVirada
+  const dorTitle = normalizeString(siteData?.dorTitle);
+  const dorSubtitle = normalizeString(siteData?.dorSubtitle);
+  const dorItems = normalizeStringArray(siteData?.dorItems);
+  const viradaItems = normalizeStringArray(siteData?.viradaItems);
+
+  // Ecossistema
+  const ecoTitle = normalizeString(siteData?.ecoTitle);
+  const ecoSub = normalizeString(siteData?.ecoSub);
+  const ecoTestimony = normalizeString(siteData?.ecoTestimony);
+  const ecoTestimonyAuthor = normalizeString(siteData?.ecoTestimonyAuthor);
+
+  // Estrutura
+  const estruturaTitle = normalizeString(siteData?.estruturaTitle);
+  const estruturaSub = normalizeString(siteData?.estruturaSub);
+
+  // Bonus
+  const bonusTitle = normalizeString(siteData?.bonusTitle);
+  const bonusSub = normalizeString(siteData?.bonusSub);
+  const bonusItems = Array.isArray(siteData?.bonusItems) && (siteData?.bonusItems as unknown[]).length > 0
+    ? (siteData?.bonusItems as { id: number; title: string; desc: string; originalPrice: string; note: string }[])
+    : undefined;
+
+  // FAQ
+  const faqTitle = normalizeString(siteData?.faqTitle);
+  const faqSub = normalizeString(siteData?.faqSub);
+  const faqItems = Array.isArray(siteData?.faqItems) && (siteData?.faqItems as unknown[]).length > 0
+    ? (siteData?.faqItems as { id: number; q: string; a: string }[])
+    : undefined;
+
+  // Visibility
   const visGallery = Boolean(siteData?.visGallery ?? true);
   const visDeps = Boolean(siteData?.visDeps ?? true);
   const visCursor = Boolean(siteData?.visCursor ?? true);
   const visParticles = Boolean(siteData?.visParticles ?? true);
-
-  const stats = [
-    {
-      num: normalizeString(siteData?.stat1Num),
-      label: normalizeString(siteData?.stat1Label),
-    },
-    {
-      num: normalizeString(siteData?.stat2Num),
-      label: normalizeString(siteData?.stat2Label),
-    },
-    {
-      num: normalizeString(siteData?.stat3Num),
-      label: normalizeString(siteData?.stat3Label),
-    },
-  ].filter((s): s is { num: string; label: string } => Boolean(s.num && s.label));
 
   return (
     <>
@@ -97,7 +132,10 @@ export default async function Home() {
         </>
       ) : null}
 
+      {/* 1ª DOBRA: Topo */}
       <Navbar waHref={waLink} waText={ctaPrimary} />
+
+      {/* 2ª DOBRA: Hero */}
       <Hero
         title={heroTitle}
         sub={heroSub}
@@ -105,21 +143,73 @@ export default async function Home() {
         ctaSecondaryText={ctaSecondary}
         waHref={waLink}
         stats={stats}
+        heroSelo={heroSelo}
+        heroChecklist={heroChecklist}
+        heroBadges={heroBadges}
       />
+
       <Marquee />
-      <PreMentoria />
-      {/* Plans recebe dados dinâmicos do banco — fallback automático para defaults */}
-      <Plans dbPlans={plans} waLink={waLink} />
-      <Sobre quote={aboutQuote} bio={aboutBio} />
-      {visGallery ? <Gallery /> : null}
-      <DorVirada />
-      <Estrutura />
+
+      {/* 3ª DOBRA: Problema & Agitação */}
+      <DorVirada
+        title={dorTitle}
+        subtitle={dorSubtitle}
+        dorItems={dorItems}
+        viradaItems={viradaItems}
+      />
+
       <ParaQuem />
-      {visDeps ? <Depoimentos /> : null}
-      <CTAFinal waHref={waLink} />
+
+      {/* 4ª DOBRA: A Metodologia */}
+      <PreMentoria />
+
+      {/* 5ª DOBRA: A Experiência */}
+      <Estrutura
+        title={estruturaTitle}
+        subtitle={estruturaSub}
+        waHref={waLink}
+      />
+
+      {/* 6ª DOBRA: Ecossistema */}
+      <Ecossistema
+        title={ecoTitle}
+        sub={ecoSub}
+        testimony={ecoTestimony}
+        testimonyAuthor={ecoTestimonyAuthor}
+        waHref={waLink}
+      />
+
+      {/* 7ª DOBRA: A Mentora */}
+      <Sobre quote={aboutQuote} bio={aboutBio} waHref={waLink} />
+
+      {/* 7ª DOBRA: Resultados */}
+      <section id="resultados">
+        {visGallery ? <Gallery /> : null}
+        {visDeps ? <Depoimentos /> : null}
+      </section>
+
+      {/* 8ª DOBRA: Planos */}
+      <Plans dbPlans={plans} waLink={waLink} />
+
+      {/* 8ª DOBRA: Bônus */}
+      <Bonus
+        title={bonusTitle}
+        sub={bonusSub}
+        items={bonusItems}
+        waHref={waLink}
+      />
+
+      {/* 9ª DOBRA: FAQ */}
+      <FAQ
+        title={faqTitle}
+        sub={faqSub}
+        items={faqItems}
+        waHref={waLink}
+      />
+
+      {/* 10ª DOBRA: Rodapé */}
       <Footer waHref={waLink} igHref={igLink} email={contactEmail} />
 
-      {/* Client-side: cursor, partículas, scroll reveal, contadores */}
       <AnimationsProvider />
     </>
   );

@@ -15,6 +15,9 @@ export interface HeroProps {
   ctaSecondaryText?: string;
   waHref?: string;
   stats?: HeroStat[];
+  heroSelo?: string;
+  heroChecklist?: string[];
+  heroBadges?: string[];
 }
 
 const LogoLift = () => (
@@ -26,93 +29,41 @@ const LogoLift = () => (
         <stop offset="100%" stopColor="#9A7A45" />
       </linearGradient>
     </defs>
-    <line
-      x1="0"
-      y1="17"
-      x2="54"
-      y2="17"
-      stroke="url(#gG)"
-      strokeWidth="0.8"
-      opacity="0.7"
-    />
-    <line
-      x1="246"
-      y1="17"
-      x2="300"
-      y2="17"
-      stroke="url(#gG)"
-      strokeWidth="0.8"
-      opacity="0.7"
-    />
+    <line x1="0" y1="17" x2="54" y2="17" stroke="url(#gG)" strokeWidth="0.8" opacity="0.7" />
+    <line x1="246" y1="17" x2="300" y2="17" stroke="url(#gG)" strokeWidth="0.8" opacity="0.7" />
     <polygon points="62,13 66,17 62,21 58,17" fill="#C8A96E" opacity="0.55" />
-    <polygon
-      points="238,13 242,17 238,21 234,17"
-      fill="#C8A96E"
-      opacity="0.55"
-    />
-    <text
-      x="150"
-      y="13"
-      fontFamily="var(--font-montserrat),sans-serif"
-      fontSize="7.5"
-      fontWeight="600"
-      fill="#C8A96E"
-      letterSpacing="5"
-      textAnchor="middle"
-      opacity="0.8"
-    >
-      MÉTODO
-    </text>
-    <text
-      x="150"
-      y="44"
-      fontFamily="var(--font-cormorant),serif"
-      fontSize="36"
-      fontWeight="300"
-      fill="white"
-      letterSpacing="6"
-      textAnchor="middle"
-    >
-      LIFT
-    </text>
-    <text
-      x="150"
-      y="63"
-      fontFamily="var(--font-montserrat),sans-serif"
-      fontSize="12"
-      fontWeight="700"
-      fill="url(#gG)"
-      letterSpacing="8"
-      textAnchor="middle"
-    >
-      BUMBUM
-    </text>
-    <line
-      x1="36"
-      y1="67"
-      x2="264"
-      y2="67"
-      stroke="url(#gG)"
-      strokeWidth="0.5"
-      opacity="0.35"
-    />
+    <polygon points="238,13 242,17 238,21 234,17" fill="#C8A96E" opacity="0.55" />
+    <text x="150" y="13" fontFamily="var(--font-montserrat),sans-serif" fontSize="7.5" fontWeight="600" fill="#C8A96E" letterSpacing="5" textAnchor="middle" opacity="0.8">MÉTODO</text>
+    <text x="150" y="44" fontFamily="var(--font-cormorant),serif" fontSize="36" fontWeight="300" fill="white" letterSpacing="6" textAnchor="middle">LIFT</text>
+    <text x="150" y="63" fontFamily="var(--font-montserrat),sans-serif" fontSize="12" fontWeight="700" fill="url(#gG)" letterSpacing="8" textAnchor="middle">BUMBUM</text>
+    <line x1="36" y1="67" x2="264" y2="67" stroke="url(#gG)" strokeWidth="0.5" opacity="0.35" />
   </svg>
 );
 
-const DEFAULT_HERO: Required<
-  Pick<
-    HeroProps,
-    "title" | "sub" | "ctaPrimaryText" | "ctaSecondaryText" | "waHref" | "stats"
-  >
-> = {
-  title: "Escolha sua experiência.\nTransforme seu corpo\ne sua carreira.",
-  sub: "A mentoria que une ciência, estética avançada e resultados reais. Aprenda com a Dra. Thaine Malinowski os segredos do Método LiftBumbum® — técnica exclusiva que está revolucionando a harmonização corporal no Brasil.",
-  ctaPrimaryText: "Quero Participar",
+const DEFAULT_CHECKLIST = [
+  "Domínio Técnico Avançado: Protocolos exclusivos com Bioestimuladores e Ácido Hialurônico para resultados imediatos e duradouros.",
+  "Hands-On com Modelos Reais: Prática supervisionada individualmente sob o olhar da Dra. Thaine, com segurança total.",
+  "Aceleração de Negócio & Marketing: O 'Dia 3' focado em Business — Instagram, scripts de vendas e captação de pacientes de alto padrão.",
+  "Networking e Comunidade VIP: Faça parte de um ecossistema de profissionais referências no Brasil.",
+  "Mentoria e Suporte por 6 Meses: Canal direto para análise de casos clínicos e suporte técnico por 180 dias.",
+  "Bônus Exclusivo: Kit de Marketing (fotos e vídeos profissionais) + Certificado de Especialista Licenciada.",
+];
+
+const DEFAULT_BADGES = [
+  "+500 Alunas Formadas",
+  "Método com Marca Registrada",
+  "Fature +5 dígitos em 30 dias",
+];
+
+const DEFAULT_HERO: Required<Omit<HeroProps, "heroChecklist" | "heroBadges" | "heroSelo">> = {
+  title: "Domine o Método LiftBumbum®: A Técnica de Harmonização de Glúteos que une Ciência, Segurança e Alta Lucratividade",
+  sub: "Imersão VIP Presencial com modelos reais — aprenda tudo que faço para faturar +1MM/ano em apenas 3 dias, com quem une ciência de ponta, estética avançada e o modelo de negócio para você se tornar a maior referência da sua região.",
+  ctaPrimaryText: "Quero Garantir Minha Vaga",
   ctaSecondaryText: "Ver Planos",
   waHref: "https://wa.me/559286062977",
   stats: [
     { num: "500+", label: "Alunas Formadas" },
-    { num: "98%", label: "Satisfação" },
+    { num: "R$3k–12k", label: "Por Protocolo" },
     { num: "3 Dias", label: "Imersão Completa" },
   ],
 };
@@ -121,18 +72,18 @@ export default function Hero(props: HeroProps) {
   const title = props.title ?? DEFAULT_HERO.title;
   const sub = props.sub ?? DEFAULT_HERO.sub;
   const ctaPrimaryText = props.ctaPrimaryText ?? DEFAULT_HERO.ctaPrimaryText;
-  const ctaSecondaryText =
-    props.ctaSecondaryText ?? DEFAULT_HERO.ctaSecondaryText;
+  const ctaSecondaryText = props.ctaSecondaryText ?? DEFAULT_HERO.ctaSecondaryText;
   const waHref = props.waHref ?? DEFAULT_HERO.waHref;
-  const stats = (
-    props.stats && props.stats.length > 0 ? props.stats : DEFAULT_HERO.stats
-  ) as HeroStat[];
+  const stats = (props.stats && props.stats.length > 0 ? props.stats : DEFAULT_HERO.stats) as HeroStat[];
+  const heroSelo = props.heroSelo ?? "MÉTODO REGISTRADO ® | VAGAS LIMITADAS PARA PROFISSIONAIS DE ELITE";
+  const checklist = (props.heroChecklist && props.heroChecklist.length > 0) ? props.heroChecklist : DEFAULT_CHECKLIST;
+  const badges = (props.heroBadges && props.heroBadges.length > 0) ? props.heroBadges : DEFAULT_BADGES;
 
   return (
     <section className="hero" id="mentoria">
       {/* Coluna esquerda — conteúdo */}
       <div className="hero-content">
-        <div className="hero-badge">Mentoria Exclusiva</div>
+        <div className="hero-selo">{heroSelo}</div>
 
         <div className="hero-logo">
           <LogoLift />
@@ -140,7 +91,6 @@ export default function Hero(props: HeroProps) {
 
         <h1 className="hero-headline">
           {title.split("\n").map((line, idx, arr) => (
-            // eslint-disable-next-line react/no-array-index-key
             <span key={idx}>
               {line}
               {idx < arr.length - 1 ? <br /> : null}
@@ -150,16 +100,19 @@ export default function Hero(props: HeroProps) {
 
         <p className="hero-sub">{sub}</p>
 
-        <div className="hero-pills">
-          <span className="pill">Harmonização Corporal</span>
-          <span className="pill">Método Exclusivo</span>
-          <span className="pill">Resultados Comprovados</span>
+        <div className="hero-checklist">
+          {checklist.map((item, i) => (
+            <div className="hero-checklist-item" key={i}>
+              <span>✅</span>
+              <span>{item}</span>
+            </div>
+          ))}
         </div>
 
         <div className="hero-actions">
           <a
             href={waHref}
-            className="btn-primary"
+            className="btn-primary btn-primary-glow"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -168,6 +121,12 @@ export default function Hero(props: HeroProps) {
           <a href="#planos" className="btn-ghost">
             {ctaSecondaryText}
           </a>
+        </div>
+
+        <div className="hero-social-proof">
+          {badges.map((badge, i) => (
+            <div className="hero-social-proof-item" key={i}>{badge}</div>
+          ))}
         </div>
 
         <div className="hero-stats">
@@ -189,10 +148,6 @@ export default function Hero(props: HeroProps) {
           style={{ objectFit: "cover", objectPosition: "center top" }}
           priority
         />
-        {/* <div className="hero-float-card">
-          <div className="float-card-label">Técnica Exclusiva</div>
-          <div className="float-card-value">LiftBumbum®</div>
-        </div> */}
       </div>
     </section>
   );

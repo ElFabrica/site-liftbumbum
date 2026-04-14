@@ -6,6 +6,7 @@ interface PlanData {
   name: string;
   price: string;
   priceNote?: string;
+  priceVista?: string;
   sub?: string;
   features: PlanFeature[] | string[];
   bonus?: PlanFeature[] | string[];
@@ -99,20 +100,20 @@ export default function Plans({ dbPlans, waLink }: PlansProps) {
 
   const plans = dbPlans && dbPlans.length > 0
     ? dbPlans.map((p, i) => ({
-        emoji:    DEFAULT_PLANS[i]?.emoji    ?? '💎',
-        badge:    DEFAULT_PLANS[i]?.badge,
-        name:     p.name,
-        sub:      p.sub   ?? DEFAULT_PLANS[i]?.sub ?? '',
-        price:    p.price,
-        priceNote: p.priceNote ?? DEFAULT_PLANS[i]?.priceNote ?? '',
-        priceVista: DEFAULT_PLANS[i]?.priceVista ?? '',
-        features: (p.features ?? []).map(featureText),
-        bonus:    p.bonus  ? (p.bonus as (PlanFeature | string)[]).map(featureText) : DEFAULT_PLANS[i]?.bonus,
-        btnText:  p.btn    ?? DEFAULT_PLANS[i]?.btnText ?? 'Saiba Mais',
-        btnClass: DEFAULT_PLANS[i]?.btnClass ?? 'outline',
-        featured: DEFAULT_PLANS[i]?.featured ?? false,
-        waMsg:    DEFAULT_PLANS[i]?.waMsg ?? '',
-      }))
+      emoji: DEFAULT_PLANS[i]?.emoji ?? '💎',
+      badge: DEFAULT_PLANS[i]?.badge,
+      name: p.name,
+      sub: p.sub ?? DEFAULT_PLANS[i]?.sub ?? '',
+      price: p.price,
+      priceNote: p.priceNote ?? DEFAULT_PLANS[i]?.priceNote ?? '',
+      priceVista: p.priceVista || `R$ ${p.price} à vista no PIX`,
+      features: (p.features ?? []).map(featureText),
+      bonus: p.bonus ? (p.bonus as (PlanFeature | string)[]).map(featureText) : DEFAULT_PLANS[i]?.bonus,
+      btnText: p.btn ?? DEFAULT_PLANS[i]?.btnText ?? 'Saiba Mais',
+      btnClass: DEFAULT_PLANS[i]?.btnClass ?? 'outline',
+      featured: DEFAULT_PLANS[i]?.featured ?? false,
+      waMsg: DEFAULT_PLANS[i]?.waMsg ?? '',
+    }))
     : DEFAULT_PLANS;
 
   return (

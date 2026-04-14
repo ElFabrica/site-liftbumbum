@@ -50,14 +50,15 @@ export default async function Home() {
 
   const plans = siteData?.plans as
     | {
-        name: string;
-        price: string;
-        priceNote?: string;
-        sub?: string;
-        features: { id: number; value: string }[];
-        bonus?: { id: number; value: string }[];
-        btn?: string;
-      }[]
+      name: string;
+      price: string;
+      priceNote?: string;
+      sub?: string;
+      features: { id: number; value: string }[];
+      priceVista?: string;
+      bonus?: { id: number; value: string }[];
+      btn?: string;
+    }[]
     | null;
 
   const waNumber = normalizeString(siteData?.contactWa);

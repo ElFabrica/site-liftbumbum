@@ -160,7 +160,7 @@ const DEFAULT_DATA: AdminData = {
     {
       name: "Experience Silver",
       price: "5.500",
-      priceNote: "Investimento único — à vista no PIX",
+      priceNote: "12x de R$ 552,20",
       sub: "Para quem deseja entrar no método com base sólida e prática real.",
       btn: "Quero o Silver",
       features: [
@@ -173,7 +173,7 @@ const DEFAULT_DATA: AdminData = {
     {
       name: "Experience VIP",
       price: "8.888",
-      priceNote: "Investimento único — à vista no PIX",
+      priceNote: "12x de R$ 888,80",
       sub: "Para quem quer ir além da técnica e viver proximidade, estratégia e crescimento.",
       btn: "Quero o VIP",
       features: [
@@ -189,7 +189,7 @@ const DEFAULT_DATA: AdminData = {
     {
       name: "Experience Master",
       price: "9.990",
-      priceNote: "Investimento único — à vista no PIX",
+      priceNote: "12x de R$ 999,00",
       sub: "Para quem quer viver o nível mais alto da experiência.",
       btn: "Quero o Master",
       features: [

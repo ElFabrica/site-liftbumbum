@@ -16,7 +16,7 @@ import AnimationsProvider from "@/components/AnimationsProvider";
 import ParaQuem from "@/components/ParaQuem";
 import prisma from "@/lib/db";
 
-export const revalidate = 60;
+export const dynamic = "force-dynamic";
 
 async function getSiteData() {
   try {

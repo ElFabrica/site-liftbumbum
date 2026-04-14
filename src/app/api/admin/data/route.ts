@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/db";
 import { isAuthenticated } from "@/lib/auth";
+import { revalidatePath } from "next/cache";
 
 // GET /api/admin/data — retorna os dados do site (público — página principal lê isso)
 export async function GET() {
@@ -27,6 +28,9 @@ export async function POST(req: NextRequest) {
       update: { data: body },
       create: { id: 1, data: body },
     });
+    
+    revalidatePath("/");
+    revalidatePath("/admin");
 
     return NextResponse.json(record.data);
   } catch (e) {
